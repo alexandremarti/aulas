@@ -1,0 +1,16 @@
+# instala o virtualenv no centos7
+yum install epel-release
+yum install python34 python-pip
+pip install -U pip
+pip install -U virtualenv
+
+# iniciar o ambiente utilizando
+virtualenv -p python3 <env_name> (exemplo: virtualenv -p python3 aulas)
+source aulas/bin/activate
+
+# pacotes flask utilizados (instalar no virtualenv - depois do comando source activate)
+
+pip install flask
+pip install flask-login
+pip install flask-restless
+pip install flask-sqlalchemy
