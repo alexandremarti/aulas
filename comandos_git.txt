@@ -1,0 +1,11 @@
+mkdir aulas
+cd aulas
+echo "# aulas" >> README.md
+git init
+git config --global user.name "Alexandre do Amaral Marti"
+git config --global user.email alexandremarti@gmail.com
+git add README.md
+git commit -m "iniciando"
+git remote add origin https://github.com/alexandremarti/aulas.git
+git push -u origin master
+
