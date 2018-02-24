@@ -23,4 +23,14 @@ func main() {
 	// vc pode imaginar um slice como: tamanho e um ponteiro para um elemento de um array
 	s4 := s2[:1]
 	fmt.Println(s2, s4)
+
+	// como  slice é um ponteiro para um pedaço do array, quando eu altero o array reflete em todos os slices
+	a2[1] = 9
+	fmt.Println(s2, s4, a2)
+
+	// da mesma forma, se eu altero o valor em um slice na verdade altero no array e em todos os slices
+	// que referenciam aquele pedaço
+	s2[0] = 7
+	fmt.Println(s2[0], s2, s4, a2)
+
 }
