@@ -20,5 +20,11 @@ func main() {
 
 	for letra, funcs := range funcsPorLetra {
 		fmt.Println(letra, funcs)
+		for nome, salario := range funcs {
+			fmt.Printf("%s (%.2f)\n", nome, salario)
+		}
+		fmt.Println("")
 	}
+
+	fmt.Println(funcsPorLetra["G"]["Guga Pereira"])
 }
