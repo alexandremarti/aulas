@@ -30,4 +30,14 @@ func main() {
 	var b esportivoLuxuoso = bwm7{}
 	b.ligarTurbo()
 	b.fazerBaliza()
+
+	// demonstra que pode ser usado qualquer das interfaces
+	var c luxuoso = bwm7{}
+	c.fazerBaliza()
+	// nesse caso não posso acessar o método ligarTurbo pois a interface luxuso não implementa ele!
+	//c.ligarTurbo()
+
+	var d esportivo = bwm7{}
+	d.ligarTurbo()
+
 }
