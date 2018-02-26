@@ -23,3 +23,10 @@ https://code.visualstudio.com/
 
 ##### Instalando driver sql para mysql
 - go get -u github.com\go-sql-driver\mysql
+
+### INSTALANDO GO NO UBUNTU PARA FUNCIONAR COM O DRIVER ORACLE
+- https://medium.com/@patdhlk/how-to-install-go-1-9-1-on-ubuntu-16-04-ee64c073cd79
+
+##### Instalar o driver OCI para Oracle no Ubuntu
+- https://gocodecloud.com/blog/2016/08/09/accessing-an-oracle-db-in-go/
+- 
