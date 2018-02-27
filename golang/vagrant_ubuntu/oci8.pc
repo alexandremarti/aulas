@@ -1,0 +1,9 @@
+prefixdir=/Oracle/instantclient_12_1/sdk
+libdir=${prefixdir}
+includedir=${prefixdir}/include
+    
+Name: OCI
+Description: Oracle database driver
+Version: 11.2
+Libs: -L${libdir} -lclntsh
+Cflags: -I${includedir}
