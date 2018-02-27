@@ -1,0 +1,7 @@
+#!/bin/bash
+yum update -y
+yum install httpd php php-mysql -y
+service httpd start
+chkconfig httpd on
+echo "<?php phpinfo();?>" > /var/www/html/index.php
+aws s3 cp s3://websitefiles-lab3/conn.php /var/www/html
