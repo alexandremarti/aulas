@@ -1,8 +1,8 @@
 <?php
-$username = "dsadmin"
-$password = "dsadmin789"
-$hostname = "dsa-instance1.cbjkxisxciuj.us-east-2.rds.amazonaws.com"
-$dbname = "dsalab5db"
+$username = "dsadmin";
+$password = "dsadmin789";
+$hostname = "dsa-instance1.cbjkxisxciuj.us-east-2.rds.amazonaws.com";
+$dbname = "dsalab5db";
 
 //Conexão para o banco de dados
 $dbhandle = mysql_connect($hostname, $username, $password) or die("Conection failed");
