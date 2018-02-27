@@ -25,8 +25,9 @@ https://code.visualstudio.com/
 - go get -u github.com\go-sql-driver\mysql
 
 ### INSTALANDO GO NO UBUNTU PARA FUNCIONAR COM O DRIVER ORACLE
+- Usar o arquivo vagrant_ubuntu/Vagrantfile para subir um servidor ubuntu no virtualbox
 - https://medium.com/@patdhlk/how-to-install-go-1-9-1-on-ubuntu-16-04-ee64c073cd79
 
 ##### Instalar o driver OCI para Oracle no Ubuntu
 - https://gocodecloud.com/blog/2016/08/09/accessing-an-oracle-db-in-go/
-- 
+
