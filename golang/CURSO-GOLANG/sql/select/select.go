@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -9,23 +10,31 @@ import (
 )
 
 type usuario struct {
-	id   int
-	nome string
+	ID   int    `json:"id"`
+	Nome string `json:"nome"`
 }
 
 func main() {
-	db, err := sql.Open("mysql", "root:123456@/cursogo")
+	db, err := sql.Open("mysql", "root:Welcome1@/cursogo")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	rows, _ := db.Query("select id, nome from usuarios where id > ?", 3)
+	rows, _ := db.Query("select id, nome from usuarios where id > ?", 0)
 	defer rows.Close()
+	// var usu usuario
 
+	var usu []usuario
 	for rows.Next() {
 		var u usuario
-		rows.Scan(&u.id, &u.nome)
+		rows.Scan(&u.ID, &u.Nome)
 		fmt.Println(u)
+		// usu = usuario{u.Id, u.Nome}
+		usu = append(usu, u)
 	}
+
+	p1Json, _ := json.Marshal(usu)
+	fmt.Println(string(p1Json))
+
 }
