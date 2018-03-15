@@ -36,6 +36,29 @@ func connDB(url string) *sql.DB {
 	return db
 }
 
+func connectToDB(urlDB string, db string) *sql.DB {
+	urlConn := fmt.Sprintf("%s/%s/%s", urlDB, strings.Split(db, "_")[0], db)
+	dbconn := connDB(urlConn)
+	if dbconn == nil {
+
+		urlConn := fmt.Sprintf("%s/%s.sicredi.net/%s", urlDB, strings.Split(db, "_")[0], db)
+		dbconn = connDB(urlConn)
+		if dbconn == nil {
+
+			urlConn = fmt.Sprintf("c##%s/%s/%s", urlDB, strings.Split(db, "_")[0], db)
+			dbconn = connDB(urlConn)
+			if dbconn == nil {
+
+				urlConn = fmt.Sprintf("c##%s/%s.sicredi.net/%s", urlDB, strings.Split(db, "_")[0], db)
+				dbconn = connDB(urlConn)
+			}
+		}
+	}
+
+	return dbconn
+
+}
+
 func getParam(db *sql.DB, url string, param string, scope string) string {
 
 	var instancia string
@@ -123,6 +146,35 @@ func getSIDList() map[string]string {
 
 }
 
+func printSep(cnt int) {
+	for i := 1; i <= cnt; i++ {
+		fmt.Print("-")
+	}
+	fmt.Println("")
+
+}
+
+func printLineParam(pDb, pInst, pHome, pParam, pValMem, pValSpf string) {
+	fmt.Printf("| %-10s | %-10s | %-50s | %-30s | %-30s | %-30s |\n", pDb, pInst, pHome, pParam, pValMem, pValSpf)
+}
+
+func printHeaderParam() {
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("")
+	nmServer, _ := os.Hostname()
+	fmt.Printf("Servidor: %s\n", nmServer)
+	printSep(179)
+	printLineParam("DATABASE", "INSTANCE", "ORACLE HOME", "PARAMETRO", "IN MEMORY", "IN SPFILE")
+	printSep(179)
+}
+
+func printFoot() {
+	fmt.Println("")
+	fmt.Println("*** DBACTL 1.0 (ALEXANDRE MARTI)")
+	fmt.Println("")
+}
+
 func main() {
 
 	// Valida parametros de entrada
@@ -156,8 +208,9 @@ func main() {
 	//os.Setenv("ORACLE_HOME", "/grid/product/12.1.0")
 	//os.Setenv("LD_LIBRARY_PATH", "/grid/product/12.1.0/lib")
 	servername = strings.Split(servername, ".")[0]
-	fmt.Println(servername)
+	//fmt.Println(servername)
 
+	printHeaderParam()
 	if isLocal {
 		urlDB := fmt.Sprintf("%s/%s@%s:%s", global_user, global_pass, servername, porta)
 		//urlCDB := fmt.Sprintf("c##%s/%s@%s:%s", global_user, global_pass, servername, porta)
@@ -190,7 +243,8 @@ func main() {
 			if dbconn != nil {
 				memValue := getParam(dbconn, urlConn, param, "MEMORY")
 				spfValue := getParam(dbconn, urlConn, param, "SPFILE")
-				fmt.Printf("%s=%s(memory),%s(spfile) (DB: %s, SID: %s, OHOME: %s)\n", param, memValue, spfValue, strings.Split(db, "_")[0], db, ohome)
+				//fmt.Printf("%s=%s(memory),%s(spfile) (DB: %s, SID: %s, OHOME: %s)\n", param, memValue, spfValue, strings.Split(db, "_")[0], db, ohome)
+				printLineParam(strings.Split(db, "_")[0], db, ohome, param, memValue, spfValue)
 				dbconn.Close()
 			} else {
 				fmt.Printf("DB: %s, SID: %s (Falhou nas tentativas de conectar!!)\n", strings.Split(db, "_")[0], db)
@@ -199,23 +253,19 @@ func main() {
 
 	} else {
 		urlDB := fmt.Sprintf("%s/%s@%s:%s/", global_user, global_pass, servidor, porta)
-		urlCDB := fmt.Sprintf("c##%s/%s@%s:%s/", global_user, global_pass, servidor, porta)
-		fmt.Println(urlDB, urlCDB)
+		urlConn := fmt.Sprintf("%s%s", urlDB, serviceList)
+		dbconn := connectToDB(urlConn, "")
+		if dbconn != nil {
+			memValue := getParam(dbconn, urlConn, param, "MEMORY")
+			spfValue := getParam(dbconn, urlConn, param, "SPFILE")
+			//fmt.Printf("%s=%s(memory),%s(spfile) (DB: %s, SID: %s, OHOME: %s)\n", param, memValue, spfValue, strings.Split(db, "_")[0], db, ohome)
+			printLineParam("", serviceList, "", param, memValue, spfValue)
+			dbconn.Close()
+		} else {
+			fmt.Printf("DB: %s, SID: %s (Falhou nas tentativas de conectar!!)\n", "", serviceList)
+		}
+
 	}
 
-	//os.Exec()
-
-	/*
-	       if serviceList == "" {
-	   		fmt.Printf("URL: %s, %s=%s\n", connStr, param, getParam(urlDB, param))
-	   	} else {
-	   		fmt.Printf("Listando Databases -> %s\n", connStr)
-	   		for _, service := range strings.Split(serviceList, ",") {
-	   			urlConn := fmt.Sprintf("sdm/SDM#3940#DBA@%s/%s", connStr, service)
-	   			fmt.Printf("DB: %s, %s=%s\n", service, param, getParam(urlConn, param))
-	   		}
-
-	   	}
-	*/
-
+	printFoot()
 }

@@ -1,23 +1,28 @@
 package main
 
 import (
+	"github.com/mattn/go-oci8"
 	"database/sql"
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
+	"strings"]
+
+
+
 
 	_ "github.com/mattn/go-oci8"
 )
 
 func getDSN() string {
 	// same as "sqlplus sys/syspwd@tnsentry as sysdba"
-	return "sys/Welcome1@?as=sysdba"
+	//return "sys/Welcome1@?as=sysdba"
+	return "system/Welcome1"
 }
 func main() {
 	os.Setenv("NLS_LANG", "")
 	os.Setenv("ORACLE_SID", "db_1")
-
+    
 	db, err := sql.Open("oci8", getDSN())
 	if err != nil {
 		fmt.Println(err)
